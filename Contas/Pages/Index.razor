@@ -1,0 +1,27 @@
+﻿@page "/"
+@inject DadosCarteiras dados
+<p>Data do Sistema:</p>
+<br>
+<p>@dados.DataDoSistema</p>
+
+<br><br>
+<p>Atualizar Data</p>
+
+<input type="datetime" @bind=dados.DataDoSistema></input>
+
+<br>
+<button @onclick="CobrarTarifa">Cobrar Tarifas (Todos as Contas) </button>
+
+@code{
+
+    public void CobrarTarifa()
+    {
+        dados.DataDoSistema = DateTime.Now;
+
+        foreach (Carteira carteira in dados.ListaDados)
+        {
+            carteira.CobrarTarifa(19.90);
+        }
+    }
+
+}

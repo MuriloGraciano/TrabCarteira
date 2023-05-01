@@ -1,0 +1,89 @@
+﻿@inject DadosCarteiras dados
+
+<h3>Transferencia</h3>
+@if (transferenciaOk is null || transferenciaOk == false)
+{
+    <p>Conta Destino</p>
+<input type="text" @bind=contaDestino/>
+<br><br>
+<p>Valor da Transferencia</p>
+<input type="number" @bind=ValorTransferencia/>
+<br><br>
+@if(ValorTransferencia > 1000){
+    <p>Digite os Três Primeiros Dígitos do seu CPF</p>
+    <input type="text"
+        maxlength="3"
+        @bind=cpfTransferencia
+        />
+    <br><br>
+}
+<button @onclick="Transferir"> Confirma Transferencia</button>
+}
+
+@if(transferenciaOk is not null)
+{
+    @if (transferenciaOk == true)
+    {
+        <h1>Deposito Realizado com sucesso!</h1>
+        <p>Resumo</p>
+        <br>
+        <p>Destino: @contaDestino</p>
+         <br>
+        <p>Valor: @ValorTransferencia</p>
+          <br>
+        <p>Data: @DateTime.Now.ToLongDateString() </p>
+
+    }
+    else
+    {
+       <h1>Erro! não foi possivel realizar está operação</h1>  
+    }
+}
+
+@code {
+    [Parameter]
+    public Carteira Conta { get; set; }
+    bool? transferenciaOk = null;
+    string contaDestino;
+    double ValorTransferencia;
+    string cpfTransferencia;
+
+    public void Transferir()
+    {
+        if(ValorTransferencia < 0){
+            transferenciaOk = null;
+        }
+        else{
+            Carteira destino =  dados.ListaDados.FirstOrDefault(c => c.NumeroDaConta == contaDestino);
+
+            if(ValorTransferencia > 1000)
+            {
+                if (cpfTransferencia == Conta.cpf.Substring(0, 3))
+                {
+                    if (destino is not null && Conta.LimiteConta > ValorTransferencia)
+                    {
+                        Conta.Transferir(destino, ValorTransferencia);
+                        transferenciaOk = true;
+                    }
+                    else
+                    {
+                        transferenciaOk = false;
+                    }
+                }
+                else{
+                    transferenciaOk = false;
+                }
+            }else{
+                    if (destino is not null && Conta.LimiteConta > ValorTransferencia)
+                    {
+                        Conta.Transferir(destino, ValorTransferencia);
+                        transferenciaOk = true;
+                    }
+                    else
+                    {
+                        transferenciaOk = false;
+                    }
+                }
+            }
+        }
+}
