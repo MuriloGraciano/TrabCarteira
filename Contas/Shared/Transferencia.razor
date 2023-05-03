@@ -62,7 +62,7 @@
                 {
                     if (destino is not null && Conta.LimiteConta > ValorTransferencia)
                     {
-                        Conta.Transferir(destino, ValorTransferencia);
+                        Conta.Transferir(destino, ValorTransferencia, dados.DataDoSistema);
                         transferenciaOk = true;
                     }
                     else
@@ -76,7 +76,7 @@
             }else{
                     if (destino is not null && Conta.LimiteConta > ValorTransferencia)
                     {
-                        Conta.Transferir(destino, ValorTransferencia);
+                        Conta.Transferir(destino, ValorTransferencia, dados.DataDoSistema);
                         transferenciaOk = true;
                     }
                     else

@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             List<Carteira> carteiras = new List<Carteira>();
-            string entrada;
+            string? entrada;
             do
             {
                 Console.WriteLine("Digite 1 para criar conta:");
@@ -28,8 +28,8 @@
                         break;
                     case "2":
                         Console.WriteLine("Entre com Nome de acesso:");
-                        string dono = Console.ReadLine();
-                        Carteira catual = carteiras.FirstOrDefault(o => o.Dono == dono);
+                        string? dono = Console.ReadLine();
+                        Carteira? catual = carteiras.FirstOrDefault(o => o.Dono == dono);
                         if (catual != null)
                             AcessarCarteira(catual, carteiras);
                         else
@@ -42,7 +42,7 @@
 
         public static Carteira CriarConta()
         {
-            string Nome; double Valor;
+            string? Nome; double Valor;
             Console.WriteLine("Entre com nome do Titula:");
             Nome = Console.ReadLine();
             Console.WriteLine("Entre com valor do 1 deposito:");
@@ -59,7 +59,7 @@
             Console.WriteLine("Digite 2 para verificar saldo");
             Console.WriteLine("Digite 3 para sacar");
             Console.WriteLine("Digite 4 para deposito");
-            string entrada = Console.ReadLine();
+            string? entrada = Console.ReadLine();
 
             switch(entrada)
             {
@@ -111,9 +111,9 @@
         public static void Transferir(Carteira carteira, List<Carteira> dados) 
         {
             Console.WriteLine("Entre com a carteira de destino");
-            string dono = Console.ReadLine();
+            string? dono = Console.ReadLine();
 
-            Carteira destino = dados.FirstOrDefault(o => o.Dono == dono);
+            Carteira? destino = dados.FirstOrDefault(o => o.Dono == dono);
             if (destino == null)
             {
                 Console.WriteLine("Destinatario invalido");

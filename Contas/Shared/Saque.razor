@@ -1,4 +1,6 @@
-﻿<h3>Dados para Saque</h3>
+﻿@inject DadosCarteiras dados
+
+<h3>Dados para Saque</h3>
 <br>
 <br>
 <p>Valor Para Saque:</p>
@@ -26,7 +28,7 @@
 
     private void Sacar()
     {
-        saqueOk = Conta.Sacar(valor);
+        saqueOk = Conta.Sacar(valor, dados.DataDoSistema);
     }
 
 }

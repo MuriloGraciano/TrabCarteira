@@ -14,13 +14,11 @@
 
 @code{
 
-    public void CobrarTarifa()
-    {
-        dados.DataDoSistema = DateTime.Now;
+    public void CobrarTarifa(){
 
         foreach (Carteira carteira in dados.ListaDados)
         {
-            carteira.CobrarTarifa(19.90);
+            carteira.CobrarTarifa(19.90, dados.DataDoSistema);
         }
     }
 

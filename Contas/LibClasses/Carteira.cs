@@ -14,12 +14,12 @@ namespace Contas.LibClasses
             private set;
         }
         public double LimiteConta { get; set; }
-        public string Dono { get; set; }
+        public string? Dono { get; set; }
         public string NumeroDaConta = Guid.NewGuid().ToString();
-        public string cpf { get; set; }
+        public string? cpf { get; set; }
         private DateTime UltimaCobranca = DateTime.MinValue;
 
-        public bool Sacar(double Valor)
+        public bool Sacar(double Valor, DateTime DataDoSistema)
         {
             if (Valor > this.Saldo)
                 return false;
@@ -27,54 +27,54 @@ namespace Contas.LibClasses
             if (Valor < 0)
                 return false;
 
-            if (Valor < this.LimiteConta)
+            if (Valor > this.LimiteConta)
                 return false;
-
-            if (DateTime.Now.Hour < 8 || DateTime.Now.Hour > 17)
+            
+            if (DataDoSistema.Hour < 8 || DataDoSistema.Hour > 17)
                 return false;
 
             this.Saldo -= Valor;
             return true;
         }
 
-        public bool Depositar(double Valor)
+        public bool Depositar(double Valor, DateTime DataDoSistema)
         {
             if (Valor < 0)
                 return false;
 
-            if (DateTime.Now.Hour < 8 || DateTime.Now.Hour > 17)
+            if (DataDoSistema.Hour < 8 || DataDoSistema.Hour > 17)
                 return false;
 
             this.Saldo += Valor;
             return true;
         }
 
-        public bool Transferir(Carteira destino, double valor)
+        public bool Transferir(Carteira destino, double valor, DateTime DataDoSistema)
         {  
             //se nao tiver saldo cancela transferencia retornando false
             if (this.Saldo <= valor)
                 return false;
 
             //Executa transferencia tirando da conta origram e deposinto na conta destino
-            this.Sacar(valor);
-            bool tOK = destino.Depositar(valor);
+            this.Sacar(valor, DataDoSistema);
+            bool tOK = destino.Depositar(valor, DataDoSistema);
             if (tOK)// se transferencia ocorreu com sucesso retorna true
                 return true;
             else// caso ocorrer erro faz o rollback voltando dinheiro para conta de origem
             {
-                this.Depositar(valor);
+                this.Depositar(valor, DataDoSistema);
                 return false;
             }
         }
-        public bool CobrarTarifa(double Valor)
+        public bool CobrarTarifa(double Valor, DateTime DataDoSistema)
         {
-            if (DateTime.Now.Month != UltimaCobranca.Month)
+            if (DataDoSistema.Month != UltimaCobranca.Month)
             {
                 if (Valor > this.Saldo)
                     return false;
 
                 this.Saldo -= Valor;
-                UltimaCobranca = DateTime.Now;
+                UltimaCobranca = DataDoSistema;
                 return true;
             }
             else

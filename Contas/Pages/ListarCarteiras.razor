@@ -8,9 +8,10 @@
     foreach(var carteira in dadosCarteira.ListaDados)
     {
         <h5>Carteira: @carteira.Dono <br>
-            Saldo: @carteira.Saldo  <br>
+            Saldo: R$ @carteira.Saldo.ToString("F2")  <br>
             Numero da Conta: @carteira.NumeroDaConta <br>
-            Limite da Conta: @carteira.LimiteConta
+            Limite da Conta: R$ @carteira.LimiteConta.ToString("F2")
+
         </h5>
             <button 
                 @onclick="() => AbrirTela(carteira.NumeroDaConta)"

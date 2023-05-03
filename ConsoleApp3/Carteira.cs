@@ -13,7 +13,7 @@ namespace ConsoleApp2
             get;
             private set;
         }
-        public string Dono { get; set; }
+        public string? Dono { get; set; }
 
         public bool Sacar(double Valor)
         {

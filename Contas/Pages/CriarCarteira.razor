@@ -25,16 +25,16 @@
     <h1>@mensagem</h1>
     
 @code {
-    private string nome;
+    private string? nome;
     private double valor;
     private string mensagem="";
-    private string cpf;
+    private string? cpf;
 
     private void CriarConta()
     {
         Carteira novaConta = new Carteira();
         novaConta.Dono = nome;
-        novaConta.Depositar(valor);
+        novaConta.Depositar(valor, dados.DataDoSistema);
         novaConta.cpf = cpf;
 
         if(novaConta.Saldo == 0){
@@ -44,7 +44,7 @@
         }
 
         dados.ListaDados.Add(novaConta);
-        mensagem = $"Carteira Criada com Sucesso ({novaConta.Dono} Saldo:{novaConta.Saldo})";
+        mensagem = $"Carteira Criada com Sucesso!    Nome: {novaConta.Dono}, Saldo: R${novaConta.Saldo.ToString("F2")}";
         nome = "";
         valor = 0;
         cpf = "";
